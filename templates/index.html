@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbot</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Spline+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-1: #f5efe6;
+  --bg-2: #e7d5c8;
+  --ink: #1f1f1f;
+  --muted: #5b4d45;
+  --panel: #fffaf4;
+  --accent: #ef5a3c;
+  --accent-2: #2f6b5a;
+  --line: #d6c4b7;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Spline Sans", system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 600px at 20% -10%, #fff2de 0%, transparent 65%),
+    radial-gradient(900px 600px at 110% 10%, #e7f0ea 0%, transparent 55%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+.shell {
+  width: min(860px, 100%);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: rgba(255, 250, 244, 0.75);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+}
+.title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.badge {
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fffdf9;
+}
+.chatbox {
+  background: var(--panel);
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(60, 45, 36, 0.18);
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+.messages {
+  padding: 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+.msg {
+  max-width: 75%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  line-height: 1.4;
+  font-size: 0.98rem;
+}
+.user {
+  margin-left: auto;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.bot {
+  background: #fff7ef;
+  border: 1px solid #edd8c7;
+  color: #2d2d2d;
+  border-bottom-left-radius: 4px;
+}
+form {
+  display: flex;
+  gap: 12px;
+  padding: 18px 20px 20px;
+  border-top: 1px solid var(--line);
+}
+input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  font-size: 1rem;
+  outline: none;
+}
+input:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(47, 107, 90, 0.15);
+}
+button {
+  background: var(--accent-2);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 0 22px;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { background: #275546; }
+.note {
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding: 0 4px 6px;
+}
+@media (max-width: 640px) {
+  .header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .msg { max-width: 90%; }
+  form { flex-direction: column; }
+  button { padding: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="header">
+    <div class="title">AI Chatbot</div>
+    <div class="badge">Local or API mode</div>
+  </div>
+
+  <div class="chatbox">
+    <div class="messages">
+      {% if user %}
+        <div class="msg user">{{ user }}</div>
+        <div class="msg bot">{{ bot }}</div>
+      {% else %}
+        <div class="msg bot">Hello! Ask me anything.</div>
+      {% endif %}
+    </div>
+    <form method="post" action="/chat">
+      <input name="message" placeholder="Type your message..." required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  <div class="note">Tip: Set OPENAI_API_KEY to enable API replies.</div>
+</div>
+</body>
+</html>
